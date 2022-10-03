@@ -1,0 +1,6 @@
+{
+  "extends": ["@rweich"],
+  "rules": {
+    "promise/catch-or-return": ["error", { "allowFinally": true }]
+  }
+}
