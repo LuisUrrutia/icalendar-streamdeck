@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
-    "typeRoots": [ "./src/types", "./node_modules/@types"],
     "target": "esnext",
     "module": "commonjs",
     "declaration": false,

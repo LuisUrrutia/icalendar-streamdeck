@@ -1,9 +1,9 @@
-import { Streamdeck } from '@rweich/streamdeck-ts';
-import moment, { duration } from 'moment';
+import { Streamdeck } from "@rweich/streamdeck-ts";
+import moment, { duration } from "moment";
 
-import Drawer from './Drawer';
-import ICalendar from './ICalendar';
-import { Settings } from './Settings';
+import Drawer from "./Drawer";
+import ICalendar from "./ICalendar";
+import { Settings } from "./Settings";
 
 const REFRESH_INTERVAL_MS = 300_000;
 const DRAW_INTERVAL_MS = 1000;
@@ -19,8 +19,8 @@ const drawer = new Drawer(144, 144);
 const plugin = new Streamdeck().plugin();
 let loading = true;
 
-plugin.on('willAppear', ({ context }) => {
-  plugin.setTitle('Loading...', context);
+plugin.on("willAppear", ({ context }) => {
+  plugin.setTitle("Loading...", context);
   plugin.getSettings(context);
 
   calendars[context] = new ICalendar(context);
@@ -29,12 +29,12 @@ plugin.on('willAppear', ({ context }) => {
   drawIntervals[context] = setInterval(() => draw(context), DRAW_INTERVAL_MS);
 });
 
-plugin.on('willDisappear', ({ context }) => {
+plugin.on("willDisappear", ({ context }) => {
   clearInterval(refreshIntervals[context]);
   clearInterval(drawIntervals[context]);
 });
 
-plugin.on('didReceiveSettings', ({ context, settings }) => {
+plugin.on("didReceiveSettings", ({ context, settings }) => {
   configs[context] = settings as Settings;
   calendars[context].setIcsUrl(configs[context].ics);
   refresh(context);
@@ -45,14 +45,14 @@ const refresh = async (context: string) => {
     .getNewEvents()
     .then((event) => {
       if (!event) {
-        plugin.setTitle('No events', context);
+        plugin.setTitle("No events", context);
       } else {
-        plugin.setTitle('', context);
+        plugin.setTitle("", context);
       }
       return;
     })
     .catch(() => {
-      plugin.setTitle('Invalid URL', context);
+      plugin.setTitle("Invalid URL", context);
     })
     .finally(() => {
       loading = false;
@@ -74,7 +74,7 @@ const draw = (context: string) => {
     event.title,
     Math.floor(delta.hours()),
     Math.floor(delta.minutes()),
-    Math.floor(delta.seconds()),
+    Math.floor(delta.seconds())
   );
   plugin.setImage(image, context);
 };

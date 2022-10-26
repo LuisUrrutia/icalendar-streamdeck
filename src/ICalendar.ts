@@ -1,5 +1,5 @@
-import * as ical from 'ical.js';
-import moment, { duration, parseZone } from 'moment';
+import * as ical from "ical.js";
+import moment, { duration, parseZone } from "moment";
 
 type Event = {
   title: string;
@@ -32,28 +32,28 @@ export default class ICalendar {
 
     const response = await fetch(this.icsUrl).then((response) => {
       if (!response.ok) {
-        throw new Error('Bad response from server');
+        throw new Error("Bad response from server");
       }
       return response;
     });
 
     if (!response) {
       this.nextEvent = undefined;
-      throw new Error('No valid response from server');
+      throw new Error("No valid response from server");
     }
 
     const body = await (response as Response).text();
     const calData = ical.parse(body);
     const vCalendar = new ical.Component(calData);
-    const vtimezone = vCalendar.getFirstSubcomponent('vtimezone');
-    const events = vCalendar.getAllSubcomponents('vevent');
+    const vtimezone = vCalendar.getFirstSubcomponent("vtimezone");
+    const events = vCalendar.getAllSubcomponents("vevent");
 
     const now = moment();
-    const limit = moment().add(this.hoursLimit, 'hours');
+    const limit = moment().add(this.hoursLimit, "hours");
 
     for (const event of events) {
-      const start = event.getFirstPropertyValue('dtstart');
-      const end = event.getFirstPropertyValue('dtend');
+      const start = event.getFirstPropertyValue("dtstart");
+      const end = event.getFirstPropertyValue("dtend");
       if (vtimezone) {
         start.zone = new ical.Timezone(vtimezone);
         end.zone = new ical.Timezone(vtimezone);
@@ -64,7 +64,7 @@ export default class ICalendar {
         this.nextEvent = {
           end: endWithTZ,
           start: startWithTZ,
-          title: event.getFirstPropertyValue('summary') as string,
+          title: event.getFirstPropertyValue("summary") as string,
         };
         break;
       } else if (startWithTZ.isAfter(limit)) {

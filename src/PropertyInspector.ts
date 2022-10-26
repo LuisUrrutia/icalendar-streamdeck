@@ -1,11 +1,11 @@
-import { Streamdeck } from '@rweich/streamdeck-ts';
+import { Streamdeck } from "@rweich/streamdeck-ts";
 
 const pi = new Streamdeck().propertyinspector();
 
-pi.on('websocketOpen', ({ uuid }) => pi.getSettings(uuid));
+pi.on("websocketOpen", ({ uuid }) => pi.getSettings(uuid));
 
-pi.on('didReceiveSettings', ({ settings }: { settings: any }) => {
-  const icsInput = document.querySelector('#ics') as HTMLInputElement;
+pi.on("didReceiveSettings", ({ settings }: { settings: any }) => {
+  const icsInput = document.querySelector("#ics") as HTMLInputElement;
   if (!icsInput) {
     return;
   }
@@ -13,9 +13,9 @@ pi.on('didReceiveSettings', ({ settings }: { settings: any }) => {
   if (settings.ics) {
     icsInput.value = settings.ics;
   }
-  icsInput.addEventListener('change', (event) => {
+  icsInput.addEventListener("change", (event) => {
     if (!pi.pluginUUID) {
-      console.log('pluginUUID not set');
+      console.log("pluginUUID not set");
       return;
     }
 
